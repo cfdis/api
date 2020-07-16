@@ -1,241 +1,79 @@
 ---
-title: API Reference
+title: API Facturabilidad
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
-  - python
-  - javascript
+  - php
+  - csharp
+
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
-
-includes:
-  - errors
+  - <a href='https://github.com/cfdis/netcore' target="_blank">Ejemplo .NET</a>
 
 search: true
 
 code_clipboard: true
 ---
 
-# Introduction
+# Introducción
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Bienbenido al API CFDIS de facturabilidad, Puedes suar esta API para emitir Comprobantes Fiscales Digitales en México.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+Tenemos ejemplos de implementacion en diferentes lenguajes de programacion como: Shell, PHP, and .NET Core. Puedes ver los ejemplos de código en el area obscura a la derecha, y puedes cambiar el lenguaje de programacion de los ejemplos con las pestañas en la esquina superior derecha.
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Para generar tus credenciales de API ve a https://app.facturabilidad.com/ elige el RFC a conectar, ve al menú Ajustes->Api y da click en el botón *Generar nueva credencial*.
 
 # Authentication
 
-> To authorize, use this code:
+> Para usar el API se requiere Autenticación básica HTTP.
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+# Agrega el Header Authorization en cada petición
+api_id='API_ID'
+api_secret='API_SECRET'
+token=$(echo -ne "$api_id:$api_secret" | base64 --wrap 0)
+
+curl "http://backend.demo.facturabilidad.com/api"\
+  -H "Authorization: Basic . $token"
+
 ```
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
+```php
+use Facturabilidad\Cfdi33Client;
+#crea una instancia de la clase Cfdi33Client
+#Con los parametros API_ID, API_SECRET
+#El tercer parametro indica si se usará el ambiente productivo.
+#Si no se indica este parámetro se queda en false(ambiente de pruebas).
+$cliente = new Cfdi33Client("API_ID", "API_SECRET", [false]);
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+```csharp
+using Cfdis.App.Api.Client;
+//crea una instancia de la clase Cfdi33Client
+//Con los parametros API_ID, API_SECRET
+//El tercer parametro indica si se usará el ambiente productivo.
+//Si no se indica este parámetro se queda en false(ambiente de pruebas).
+Cfdi33Client cliente;
+cliente = new Cfdi33Client("API_ID", "API_SECRET", [false]);  
+```
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+> Reemplaza `API_ID` y  `API_SECRET` con tus credenciales.
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+La cabecera de Autorización se construye como sigue:
 
-`Authorization: meowmeowmeow`
+1. API_ID y API_SECRET se combinan en una cadena "API_ID:API_SECRET".
+1. La cadena resultante se codifica en Base64.
+1. El método de autorización y un espacio, es decir, "Basic " se pone a continuación, antes de que la cadena codificada.
+Por ejemplo, si el API_ID es '123456' y el API_SECRET es 'EWQ321'cabecera está formada de la siguiente manera:
+
+`Authorization: Basic MTIzNDU2OkVXUTMyMQ==`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+Para generer tus credenciales 
+<a href="https://app.facturabilidad.com/" target="_blank">ingresa a tu cuenta </a>, 
+elige el RFC que conectarás por medio del API,
+ve al menú Ajustes->Api y da click en el botón <b>Generar nueva credencial</b>.
+
 </aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
 
