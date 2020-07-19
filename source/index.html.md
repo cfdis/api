@@ -45,7 +45,7 @@ curl "http://backend.demo.facturabilidad.com/api"\
 use Facturabilidad\Cfdi33Client;
 #crea una instancia de la clase Cfdi33Client
 #Con los parametros API_ID, API_SECRET
-#El tercer parametro indica si se usará el ambiente productivo.
+#El tercer parámetro indica si se usará el ambiente productivo.
 #Si no se indica este parámetro se queda en false(ambiente de pruebas).
 $cliente = new Cfdi33Client("API_ID", "API_SECRET", [false]);
 ```
@@ -53,8 +53,8 @@ $cliente = new Cfdi33Client("API_ID", "API_SECRET", [false]);
 ```csharp
 using Cfdis.App.Api.Client;
 //crea una instancia de la clase Cfdi33Client
-//Con los parametros API_ID, API_SECRET
-//El tercer parametro indica si se usará el ambiente productivo.
+//Con los parámetros API_ID, API_SECRET
+//El tercer parámetro indica si se usará el ambiente productivo.
 //Si no se indica este parámetro se queda en false(ambiente de pruebas).
 Cfdi33Client cliente;
 cliente = new Cfdi33Client("API_ID", "API_SECRET", [false]);  
@@ -89,7 +89,7 @@ ve al menú Ajustes->Api y da click en el botón <b>Generar nueva credencial</b>
 ```shell
 # Enviar el cfdi en formato JSON, 
 # puedes usar -d @ para indicar un archivo que contenga el JSON
-# o directamenet pasar la cadena JSON con -d '$json_cfdi'
+# o directamente pasar la cadena JSON con -d '$json_cfdi'
 curl "http://backend.demo.facturabilidad.com/api"\
     -H "Authorization: Basic $token"\
     -d @cfdi.json # -d '{"Emisor":{ ... } ... }'
