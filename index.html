@@ -353,13 +353,13 @@ curl <span class="s2">"http://backend.demo.facturabilidad.com/api"</span><span c
 </code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="kn">use</span> <span class="nn">Facturabilidad\Cfdi33Client</span><span class="p">;</span>
 <span class="c1">#crea una instancia de la clase Cfdi33Client</span>
 <span class="c1">#Con los parametros API_ID, API_SECRET</span>
-<span class="c1">#El tercer parametro indica si se usará el ambiente productivo.</span>
+<span class="c1">#El tercer parámetro indica si se usará el ambiente productivo.</span>
 <span class="c1">#Si no se indica este parámetro se queda en false(ambiente de pruebas).</span>
 <span class="nv">$cliente</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Cfdi33Client</span><span class="p">(</span><span class="s2">"API_ID"</span><span class="p">,</span> <span class="s2">"API_SECRET"</span><span class="p">,</span> <span class="p">[</span><span class="kc">false</span><span class="p">]);</span>
 </code></pre></div><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Cfdis.App.Api.Client</span><span class="p">;</span>
 <span class="c1">//crea una instancia de la clase Cfdi33Client</span>
-<span class="c1">//Con los parametros API_ID, API_SECRET</span>
-<span class="c1">//El tercer parametro indica si se usará el ambiente productivo.</span>
+<span class="c1">//Con los parámetros API_ID, API_SECRET</span>
+<span class="c1">//El tercer parámetro indica si se usará el ambiente productivo.</span>
 <span class="c1">//Si no se indica este parámetro se queda en false(ambiente de pruebas).</span>
 <span class="n">Cfdi33Client</span> <span class="n">cliente</span><span class="p">;</span>
 <span class="n">cliente</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Cfdi33Client</span><span class="p">(</span><span class="s">"API_ID"</span><span class="p">,</span> <span class="s">"API_SECRET"</span><span class="p">,</span> <span class="p">[</span><span class="k">false</span><span class="p">]);</span>  
@@ -392,7 +392,7 @@ ve al menú Ajustes->Api y da click en el botón <b>Generar nueva credencial</b>
 </blockquote>
 <div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># Enviar el cfdi en formato JSON, </span>
 <span class="c"># puedes usar -d @ para indicar un archivo que contenga el JSON</span>
-<span class="c"># o directamenet pasar la cadena JSON con -d '$json_cfdi'</span>
+<span class="c"># o directamente pasar la cadena JSON con -d '$json_cfdi'</span>
 curl <span class="s2">"http://backend.demo.facturabilidad.com/api"</span><span class="se">\</span>
     <span class="nt">-H</span> <span class="s2">"Authorization: Basic </span><span class="nv">$token</span><span class="s2">"</span><span class="se">\</span>
     <span class="nt">-d</span> @cfdi.json <span class="c"># -d '{"Emisor":{ ... } ... }'</span>
