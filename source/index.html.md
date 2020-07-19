@@ -21,7 +21,7 @@ code_clipboard: true
 
 Conecta cualquier sistema (TPV, ERP, eCommerce, etc) con nuestra API REST para emitir Comprobantes Fiscales Digitales en México.
 
-Tenemos ejemplos de implementacion en diferentes lenguajes de programacion como: Shell, PHP, and .NET Core. Puedes ver los ejemplos de código en el area obscura a la derecha, y puedes cambiar el lenguaje de programacion de los ejemplos con las pestañas en la esquina superior derecha.
+Tenemos ejemplos de implementación en diferentes lenguajes de programación como: Shell, PHP, y .NET Core. Puedes ver los ejemplos de código en el área obscura a la derecha, y puedes cambiar el lenguaje de programación de los ejemplos con las pestañas en la esquina superior derecha.
 
 Para generar tus credenciales de API ve a https://app.facturabilidad.com/ elige el RFC a conectar, ve al menú Ajustes->Api y da click en el botón *Generar nueva credencial*.
 
@@ -66,8 +66,8 @@ La cabecera de Autorización se construye como sigue:
 
 1. API_ID y API_SECRET se combinan en una cadena "API_ID:API_SECRET".
 1. La cadena resultante se codifica en Base64.
-1. El método de autorización y un espacio, es decir, "Basic " se pone a continuación, antes de que la cadena codificada.
-Por ejemplo, si el API_ID es '123456' y el API_SECRET es 'EWQ321', la cabecera está formada de la siguiente manera:
+1. El método de autorización y un espacio, es decir, "Basic " se pone a continuación, antes de que la cadena sea codificada.
+Por ejemplo, si el API_ID es '123456' y el API_SECRET es 'EWQ321', la cabecera estará formada de la siguiente manera:
 
 `Authorization: Basic MTIzNDU2OkVXUTMyMQ==`
 
