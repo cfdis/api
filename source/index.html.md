@@ -108,8 +108,8 @@ try {
         echo 'Mensaje: ' . $response;
     } else {
         echo "Cfdi generado exitosamente"
-        +" con id {$response->cfdiId} "
-        +" Descarga el pdf desde {$result->pdfUrl}";
+        ." con id {$response->factura->factura_id} "
+        ." Descarga el pdf desde {$response->factura->pdfUrl}";
     }
     var_dump($response);
 } catch (\Exception $e) {
