@@ -101,7 +101,7 @@ ve al menú Ajustes->Api y da click en el botón <b>Generar nueva credencial</b>
 # Enviar el cfdi en formato JSON, 
 # puedes usar -d @ para indicar un archivo que contenga el JSON
 # o directamente pasar la cadena JSON con -d '$json_cfdi'
-curl "http://backend.demo.facturabilidad.com/api"\
+curl "http://backend.demo.facturabilidad.com/api/Cfdi33/timbrar"\
     -H "Authorization: Basic $token"\
     -d @cfdi.json # -d '{"Emisor":{ ... } ... }'
 
@@ -157,10 +157,10 @@ Envía el CFDI en formato JSON por POST
 
 ###HTTP Request
 
-Productivo:
+<p>Productivo:</p>
 `POST https://backend.facturabilidad.com/api/Cfdi33/timbrar`
 
-Pruebas:
+<p>Pruebas:</p>
 `POST http://backend.demo.facturabilidad.com/api/Cfdi33/timbrar`
 
 
@@ -169,7 +169,7 @@ Pruebas:
 Y regresará el código HTTP 400 si falla alguna validación y la respuesta String indicando lo que se debe corregir.
 
 A continuacion se muestra un ejemplo del objeto json que se espera en la petición.
-```json
+<pre>
 {
     "Emisor":{
         "RegimenFiscal": "601"
@@ -208,11 +208,11 @@ A continuacion se muestra un ejemplo del objeto json que se espera en la petici�
     "MetodoPago": "PUE",
     "Moneda": "MXN"
 }
-```
+</pre>
 
 ###HTTP Response
 
 HTTP Code | Ejemplo
 --------- | -----------
-200 | `{`<br>`"success":true`<br>`,"factura":{`<br>`"factura_id":"378961"`<br>`,"xml":"<cfdi:Comprobante>..."`<br>`,"xmlUrl":"http://..."`<br>`,"pdf":"http://..."`<br>`,"pdfUrl":"http://..."`<br>`,"notas":"Facturageneradaconu00e9xito!"`<br>`}`<br>`}`
+200 | `{`<br>`"success":true`<br>`,"factura":{`<br>&nbsp;&nbsp;&nbsp;&nbsp;`"factura_id":"378961"`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"xml":"<cfdi:Comprobante>..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"xmlUrl":"http://..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"pdf":"http://..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"pdfUrl":"http://..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"notas":"Factura generada con éxito!"`<br>`}`<br>`}`
 400|`"CFDI33101:cfdi:Comprobante:Fecha - El rango de la fecha de generación es mayor a 72 horas"`
