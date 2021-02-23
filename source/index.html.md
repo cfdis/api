@@ -169,7 +169,8 @@ Envía el CFDI en formato JSON por POST
 Y regresará el código HTTP 400 si falla alguna validación y la respuesta String indicando lo que se debe corregir.
 
 A continuacion se muestra un ejemplo del objeto json que se espera en la petición.
-<pre>
+cfdi.json
+<p style="white-space: pre;background-color: white;overflow: auto;">
 {
     "Emisor":{
         "RegimenFiscal": "601"
@@ -208,7 +209,7 @@ A continuacion se muestra un ejemplo del objeto json que se espera en la petici�
     "MetodoPago": "PUE",
     "Moneda": "MXN"
 }
-</pre>
+</p>
 
 ###HTTP Response
 
