@@ -12,6 +12,7 @@ toc_footers:
   - <a href='https://github.com/cfdis/php' target="_blank">PHP</a>
   - <a href='https://github.com/cfdis/.net' target="_blank">.NET</a>
   - <a href='https://github.com/cfdis/netcore' target="_blank">.NET Core</a>
+  - <a href='https://github.com/cfdis/shell' target="_blank">Linux shell</a>
 search: true
 
 code_clipboard: true
