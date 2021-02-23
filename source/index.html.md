@@ -23,7 +23,12 @@ Conecta cualquier sistema (TPV, ERP, eCommerce, etc) con nuestra API REST para e
 
 Tenemos ejemplos de implementación en diferentes lenguajes de programación como: Shell, PHP, y .NET Core. Puedes ver los ejemplos de código en el área obscura a la derecha, y puedes cambiar el lenguaje de programación de los ejemplos con las pestañas en la esquina superior derecha.
 
-Para generar tus credenciales de API ve a https://app.facturabilidad.com/ elige el RFC a conectar, ve al menú Ajustes->Api y da click en el botón *Generar nueva credencial*.
+Para generar tus credenciales de API ve a 
+<a href="https://app.facturabilidad.com/" target="_blank">app.facturabilidad.com</a>
+ elige el RFC a conectar, ve al menú Ajustes->Api y da click en el botón *Generar nueva credencial*.
+<aside class="notice">
+<a href="http://demo.facturabilidad.com/" target="_blank">demo.facturabilidad.com</a> para pruebas.
+</aside>
 
 # Autenticación
 
@@ -77,6 +82,12 @@ Para generer tus credenciales
 elige el RFC que conectarás por medio del API,
 ve al menú Ajustes->Api y da click en el botón <b>Generar nueva credencial</b>.
 
+    <p>
+        Para <b>pruebas</b> puedes crear una cuenta en 
+        <a href="http://demo.facturabilidad.com" target="_blank">demo.facturabilidad.com</a>
+        y registrar cualquiera de los RFCs de prueba del SAT que puedes 
+        <a href="https://api.facturabilidad.com/Csd-Pruebas.zip" target="_blank">descargar aquí.</a>
+    </p>
 </aside>
 
 # CFDI
@@ -146,12 +157,58 @@ Envía el CFDI en formato JSON por POST
 
 ###HTTP Request
 
+Productivo:
+`POST https://backend.facturabilidad.com/api/Cfdi33/timbrar`
+
+Pruebas:
 `POST http://backend.demo.facturabilidad.com/api/Cfdi33/timbrar`
 
 
 Éste método regresa el código HTTP 200 en caso de éxito y una respuesta JSON.
 
 Y regresará el código HTTP 400 si falla alguna validación y la respuesta String indicando lo que se debe corregir.
+
+A continuacion se muestra un ejemplo del objeto json que se espera en la petición.
+```json
+{
+    "Emisor":{
+        "RegimenFiscal": "601"
+    },
+    "Receptor": {
+        "Rfc": "XAXX010101000",
+        "Nombre": "Publico en general",
+        "UsoCFDI": "G03"
+    },
+    "Conceptos": {
+        "Concepto": [
+            {
+                "Cantidad": 1,
+                "Impuestos": {
+                    "Traslados": {
+                        "Traslado": [
+                            {
+                                "Impuesto": "002",
+                                "TasaOCuota": "0.160000",
+                                "TipoFactor": "Tasa",
+                                "Base": "10.000"
+                            }
+                        ]
+                    }
+                },
+                "ClaveProdServ": "01010101",
+                "ClaveUnidad": "H87",
+                "Descripcion": "none",
+                "ValorUnitario": "10.000000"
+            }
+        ]
+    },
+    "TipoDeComprobante": "I",
+    "LugarExpedicion": "12345",
+    "FormaPago": "03",
+    "MetodoPago": "PUE",
+    "Moneda": "MXN"
+}
+```
 
 ###HTTP Response
 
