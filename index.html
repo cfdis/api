@@ -337,7 +337,12 @@
 
 <p>Tenemos ejemplos de implementación en diferentes lenguajes de programación como: Shell, PHP, y .NET Core. Puedes ver los ejemplos de código en el área obscura a la derecha, y puedes cambiar el lenguaje de programación de los ejemplos con las pestañas en la esquina superior derecha.</p>
 
-<p>Para generar tus credenciales de API ve a https://app.facturabilidad.com/ elige el RFC a conectar, ve al menú Ajustes-&gt;Api y da click en el botón <em>Generar nueva credencial</em>.</p>
+<p>Para generar tus credenciales de API ve a 
+<a href="https://app.facturabilidad.com/" target="_blank">app.facturabilidad.com</a>
+ elige el RFC a conectar, ve al menú Ajustes-&gt;Api y da click en el botón <em>Generar nueva credencial</em>.
+<aside class="notice">
+<a href="http://demo.facturabilidad.com/" target="_blank">demo.facturabilidad.com</a> para pruebas.
+</aside></p>
 <h1 id='autenticacion'>Autenticación</h1>
 <blockquote>
 <p>Para usar el API se requiere Autenticación HTTP básica.</p>
@@ -385,6 +390,12 @@ Para generer tus credenciales
 elige el RFC que conectarás por medio del API,
 ve al menú Ajustes->Api y da click en el botón <b>Generar nueva credencial</b>.
 
+    <p>
+        Para <b>pruebas</b> puedes crear una cuenta en 
+        <a href="http://demo.facturabilidad.com" target="_blank">demo.facturabilidad.com</a>
+        y registrar cualquiera de los RFCs de prueba del SAT que puedes 
+        <a href="https://api.facturabilidad.com/Csd-Pruebas.zip" target="_blank">descargar aquí.</a>
+    </p>
 </aside>
 <h1 id='cfdi'>CFDI</h1><h2 id='timbrado'>Timbrado</h2>
 <blockquote>
@@ -440,11 +451,57 @@ curl <span class="s2">"http://backend.demo.facturabilidad.com/api"</span><span c
 </code></pre></div>
 <p>Envía el CFDI en formato JSON por POST</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>POST http://backend.demo.facturabilidad.com/api/Cfdi33/timbrar</code></p>
+<p>Productivo:
+<code>POST https://backend.facturabilidad.com/api/Cfdi33/timbrar</code></p>
+
+<p>Pruebas:
+<code>POST http://backend.demo.facturabilidad.com/api/Cfdi33/timbrar</code></p>
 
 <p>Éste método regresa el código HTTP 200 en caso de éxito y una respuesta JSON.</p>
 
 <p>Y regresará el código HTTP 400 si falla alguna validación y la respuesta String indicando lo que se debe corregir.</p>
+
+<p>A continuacion se muestra un ejemplo del objeto json que se espera en la petición.
+<code>json
+{
+    &quot;Emisor&quot;:{
+        &quot;RegimenFiscal&quot;: &quot;601&quot;
+    },
+    &quot;Receptor&quot;: {
+        &quot;Rfc&quot;: &quot;XAXX010101000&quot;,
+        &quot;Nombre&quot;: &quot;Publico en general&quot;,
+        &quot;UsoCFDI&quot;: &quot;G03&quot;
+    },
+    &quot;Conceptos&quot;: {
+        &quot;Concepto&quot;: [
+            {
+                &quot;Cantidad&quot;: 1,
+                &quot;Impuestos&quot;: {
+                    &quot;Traslados&quot;: {
+                        &quot;Traslado&quot;: [
+                            {
+                                &quot;Impuesto&quot;: &quot;002&quot;,
+                                &quot;TasaOCuota&quot;: &quot;0.160000&quot;,
+                                &quot;TipoFactor&quot;: &quot;Tasa&quot;,
+                                &quot;Base&quot;: &quot;10.000&quot;
+                            }
+                        ]
+                    }
+                },
+                &quot;ClaveProdServ&quot;: &quot;01010101&quot;,
+                &quot;ClaveUnidad&quot;: &quot;H87&quot;,
+                &quot;Descripcion&quot;: &quot;none&quot;,
+                &quot;ValorUnitario&quot;: &quot;10.000000&quot;
+            }
+        ]
+    },
+    &quot;TipoDeComprobante&quot;: &quot;I&quot;,
+    &quot;LugarExpedicion&quot;: &quot;12345&quot;,
+    &quot;FormaPago&quot;: &quot;03&quot;,
+    &quot;MetodoPago&quot;: &quot;PUE&quot;,
+    &quot;Moneda&quot;: &quot;MXN&quot;
+}
+</code></p>
 <h3 id='http-response'>HTTP Response</h3>
 <table><thead>
 <tr>
