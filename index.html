@@ -404,7 +404,7 @@ ve al menú Ajustes->Api y da click en el botón <b>Generar nueva credencial</b>
 <div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># Enviar el cfdi en formato JSON, </span>
 <span class="c"># puedes usar -d @ para indicar un archivo que contenga el JSON</span>
 <span class="c"># o directamente pasar la cadena JSON con -d '$json_cfdi'</span>
-curl <span class="s2">"http://backend.demo.facturabilidad.com/api"</span><span class="se">\</span>
+curl <span class="s2">"http://backend.demo.facturabilidad.com/api/Cfdi33/timbrar"</span><span class="se">\</span>
     <span class="nt">-H</span> <span class="s2">"Authorization: Basic </span><span class="nv">$token</span><span class="s2">"</span><span class="se">\</span>
     <span class="nt">-d</span> @cfdi.json <span class="c"># -d '{"Emisor":{ ... } ... }'</span>
 
@@ -451,18 +451,20 @@ curl <span class="s2">"http://backend.demo.facturabilidad.com/api"</span><span c
 </code></pre></div>
 <p>Envía el CFDI en formato JSON por POST</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p>Productivo:
-<code>POST https://backend.facturabilidad.com/api/Cfdi33/timbrar</code></p>
+<p>Productivo:</p>
 
-<p>Pruebas:
-<code>POST http://backend.demo.facturabilidad.com/api/Cfdi33/timbrar</code></p>
+<p><code>POST https://backend.facturabilidad.com/api/Cfdi33/timbrar</code></p>
+
+<p>Pruebas:</p>
+
+<p><code>POST http://backend.demo.facturabilidad.com/api/Cfdi33/timbrar</code></p>
 
 <p>Éste método regresa el código HTTP 200 en caso de éxito y una respuesta JSON.</p>
 
 <p>Y regresará el código HTTP 400 si falla alguna validación y la respuesta String indicando lo que se debe corregir.</p>
 
 <p>A continuacion se muestra un ejemplo del objeto json que se espera en la petición.
-<code>json
+<pre>
 {
     &quot;Emisor&quot;:{
         &quot;RegimenFiscal&quot;: &quot;601&quot;
@@ -501,7 +503,7 @@ curl <span class="s2">"http://backend.demo.facturabilidad.com/api"</span><span c
     &quot;MetodoPago&quot;: &quot;PUE&quot;,
     &quot;Moneda&quot;: &quot;MXN&quot;
 }
-</code></p>
+</pre></p>
 <h3 id='http-response'>HTTP Response</h3>
 <table><thead>
 <tr>
@@ -511,7 +513,7 @@ curl <span class="s2">"http://backend.demo.facturabilidad.com/api"</span><span c
 </thead><tbody>
 <tr>
 <td>200</td>
-<td><code>{</code><br><code>&quot;success&quot;:true</code><br><code>,&quot;factura&quot;:{</code><br><code>&quot;factura_id&quot;:&quot;378961&quot;</code><br><code>,&quot;xml&quot;:&quot;&lt;cfdi:Comprobante&gt;...&quot;</code><br><code>,&quot;xmlUrl&quot;:&quot;http://...&quot;</code><br><code>,&quot;pdf&quot;:&quot;http://...&quot;</code><br><code>,&quot;pdfUrl&quot;:&quot;http://...&quot;</code><br><code>,&quot;notas&quot;:&quot;Facturageneradaconu00e9xito!&quot;</code><br><code>}</code><br><code>}</code></td>
+<td><code>{</code><br><code>&quot;success&quot;:true</code><br><code>,&quot;factura&quot;:{</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>&quot;factura_id&quot;:&quot;378961&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xml&quot;:&quot;&lt;cfdi:Comprobante&gt;...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xmlUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;pdf&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;pdfUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;notas&quot;:&quot;Factura generada con éxito!&quot;</code><br><code>}</code><br><code>}</code></td>
 </tr>
 <tr>
 <td>400</td>
