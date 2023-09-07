@@ -57,7 +57,7 @@ Por ejemplo, si el API_ID es '123456' y el API_SECRET es 'EWQ321', la cabecera e
 
 <aside class="notice">
 Para generer tus credenciales 
-<a href="https://app.facturabilidad.com/" target="_blank">ingresa a tu cuenta </a>, 
+<a href="https://app.facturabilidad.com/v3" target="_blank">ingresa a tu cuenta </a>, 
 elige el RFC que conectarás por medio del API,
 ve al menú Ajustes->Api y da click en el botón <b>Generar nueva credencial</b>.
 
