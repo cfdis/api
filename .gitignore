@@ -16,7 +16,6 @@ build/
 .cache
 .vagrant
 .sass-cache
-vendor/
 
 # YARD artifacts
 .yardoc
@@ -26,4 +25,3 @@ doc/
 
 # Vagrant artifacts
 ubuntu-*-console.log
-/nbproject/private/
