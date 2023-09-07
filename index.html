@@ -288,7 +288,7 @@
     </script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;php&quot;,&quot;csharp&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -299,8 +299,6 @@
       <img src="images/logo-2d231ce1.png" class="logo" alt="" />
         <div class="lang-selector">
               <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="php">php</a>
-              <a href="#" data-language-name="csharp">csharp</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -324,9 +322,6 @@
       </ul>
         <ul class="toc-footer">
             <li><a>Código Fuente:</a></li>
-            <li><a href='https://github.com/cfdis/php' target="_blank">PHP</a></li>
-            <li><a href='https://github.com/cfdis/.net' target="_blank">.NET</a></li>
-            <li><a href='https://github.com/cfdis/netcore' target="_blank">.NET Core</a></li>
             <li><a href='https://github.com/cfdis/shell' target="_blank">Linux shell</a></li>
         </ul>
     </div>
@@ -340,10 +335,10 @@
 <p>Tenemos ejemplos de implementación en diferentes lenguajes de programación como: Shell, PHP, y .NET Core. Puedes ver los ejemplos de código en el área obscura a la derecha, y puedes cambiar el lenguaje de programación de los ejemplos con las pestañas en la esquina superior derecha.</p>
 
 <p>Para generar tus credenciales de API ve a 
-<a href="https://app.facturabilidad.com/" target="_blank">app.facturabilidad.com</a>
+<a href="https://app.facturabilidad.com/v3" target="_blank">app.facturabilidad.com/v3</a>
  elige el RFC a conectar, ve al menú Ajustes-&gt;Api y da click en el botón <em>Generar nueva credencial</em>.
 <aside class="notice">
-<a href="http://demo.facturabilidad.com/" target="_blank">demo.facturabilidad.com</a> para pruebas.
+<a href="http://demo.facturabilidad.com/v3/pruebas" target="_blank">pruebas.facturabilidad.com/v3/pruebas</a> para pruebas.
 </aside></p>
 <h1 id='autenticacion'>Autenticación</h1>
 <blockquote>
@@ -354,22 +349,22 @@
 <span class="nv">api_secret</span><span class="o">=</span><span class="s1">'API_SECRET'</span>
 <span class="nv">token</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="nt">-ne</span> <span class="s2">"</span><span class="nv">$api_id</span><span class="s2">:</span><span class="nv">$api_secret</span><span class="s2">"</span> | <span class="nb">base64</span> <span class="nt">--wrap</span> 0<span class="si">)</span>
 
-curl <span class="s2">"http://backend.demo.facturabilidad.com/api"</span><span class="se">\</span>
+curl <span class="s2">"http://backend.pruebas.facturabilidad.com/api"</span><span class="se">\</span>
   <span class="nt">-H</span> <span class="s2">"Authorization: Basic </span><span class="nv">$token</span><span class="s2">"</span>
 
-</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="kn">use</span> <span class="nn">Facturabilidad\Cfdi33Client</span><span class="p">;</span>
-<span class="c1">#crea una instancia de la clase Cfdi33Client</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="kn">use</span> <span class="nn">Facturabilidad\CfdiClient</span><span class="p">;</span>
+<span class="c1">#crea una instancia de la clase CfdiClient</span>
 <span class="c1">#Con los parametros API_ID, API_SECRET</span>
 <span class="c1">#El tercer parámetro indica si se usará el ambiente productivo.</span>
 <span class="c1">#Si no se indica este parámetro se queda en false(ambiente de pruebas).</span>
-<span class="nv">$cliente</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Cfdi33Client</span><span class="p">(</span><span class="s2">"API_ID"</span><span class="p">,</span> <span class="s2">"API_SECRET"</span><span class="p">,</span> <span class="p">[</span><span class="kc">false</span><span class="p">]);</span>
-</code></pre></div><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Cfdis.App.Api.Client</span><span class="p">;</span>
-<span class="c1">//crea una instancia de la clase Cfdi33Client</span>
+<span class="nv">$cliente</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CfdiClient</span><span class="p">(</span><span class="s2">"API_ID"</span><span class="p">,</span> <span class="s2">"API_SECRET"</span><span class="p">,</span> <span class="p">[</span><span class="kc">false</span><span class="p">]);</span>
+</code></pre></div><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Cfdis.App.Api.CfdiClient</span><span class="p">;</span>
+<span class="c1">//crea una instancia de la clase CfdiClient</span>
 <span class="c1">//Con los parámetros API_ID, API_SECRET</span>
 <span class="c1">//El tercer parámetro indica si se usará el ambiente productivo.</span>
 <span class="c1">//Si no se indica este parámetro se queda en false(ambiente de pruebas).</span>
-<span class="n">Cfdi33Client</span> <span class="n">cliente</span><span class="p">;</span>
-<span class="n">cliente</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Cfdi33Client</span><span class="p">(</span><span class="s">"API_ID"</span><span class="p">,</span> <span class="s">"API_SECRET"</span><span class="p">,</span> <span class="p">[</span><span class="k">false</span><span class="p">]);</span>  
+<span class="n">CfdiClient</span> <span class="n">cliente</span><span class="p">;</span>
+<span class="n">cliente</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">CfdiClient</span><span class="p">(</span><span class="s">"API_ID"</span><span class="p">,</span> <span class="s">"API_SECRET"</span><span class="p">,</span> <span class="p">[</span><span class="k">false</span><span class="p">]);</span>  
 </code></pre></div>
 <blockquote>
 <p>Reemplaza <code>API_ID</code> y  <code>API_SECRET</code> con tus credenciales.</p>
@@ -393,11 +388,10 @@ elige el RFC que conectarás por medio del API,
 ve al menú Ajustes->Api y da click en el botón <b>Generar nueva credencial</b>.
 
     <p>
-        Para <b>pruebas</b> puedes crear una cuenta en 
-        <a href="http://demo.facturabilidad.com" target="_blank">demo.facturabilidad.com</a>
-        y registrar cualquiera de los RFCs de prueba del SAT que puedes 
-        <a href="https://api.facturabilidad.com/Csd-Pruebas.zip" target="_blank">descargar aquí.</a>
+        Para <b>pruebas</b> puedes ingresar a 
+        <a href="http://pruebas.facturabilidad.com/v3/pruebas" target="_blank">pruebas.facturabilidad.com</a> y utilizar cualquiera de los RFCs de pruebas que están precargados.
     </p>
+    <small>Nota: las cuentas de prueba se generan con un correo aleatorio de yopmail y son desechables, la cuenta se pierde cuando se termina la sesión.</small>
 </aside>
 <h1 id='cfdi'>CFDI</h1><h2 id='timbrado'>Timbrado</h2>
 <blockquote>
@@ -406,12 +400,12 @@ ve al menú Ajustes->Api y da click en el botón <b>Generar nueva credencial</b>
 <div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># Enviar el cfdi en formato JSON, </span>
 <span class="c"># puedes usar -d @ para indicar un archivo que contenga el JSON</span>
 <span class="c"># o directamente pasar la cadena JSON con -d '$json_cfdi'</span>
-curl <span class="s2">"http://backend.demo.facturabilidad.com/api/Cfdi33/timbrar"</span><span class="se">\</span>
+curl <span class="s2">"http://backend.pruebas.facturabilidad.com/api/Cfdi/timbrar"</span><span class="se">\</span>
     <span class="nt">-H</span> <span class="s2">"Authorization: Basic </span><span class="nv">$token</span><span class="s2">"</span><span class="se">\</span>
     <span class="nt">-d</span> @cfdi.json <span class="c"># -d '{"Emisor":{ ... } ... }'</span>
 
-</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="kn">use</span> <span class="nn">Facturabilidad\Cfdi33Client</span><span class="p">;</span>
-<span class="nv">$cliente</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Cfdi33Client</span><span class="p">(</span><span class="s2">"API_ID"</span><span class="p">,</span> <span class="s2">"API_SECRET"</span><span class="p">);</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="kn">use</span> <span class="nn">Facturabilidad\CfdiClient</span><span class="p">;</span>
+<span class="nv">$cliente</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CfdiClient</span><span class="p">(</span><span class="s2">"API_ID"</span><span class="p">,</span> <span class="s2">"API_SECRET"</span><span class="p">);</span>
 <span class="nv">$jsonCfdi</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'cfdi.json'</span><span class="p">);</span>
 <span class="nv">$cfdi</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$jsonCfdi</span><span class="p">);</span>
 <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">timbrar</span><span class="p">(</span><span class="nv">$cfdi</span><span class="p">);</span>
@@ -429,8 +423,8 @@ curl <span class="s2">"http://backend.demo.facturabilidad.com/api/Cfdi33/timbrar
     <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">();</span>
 <span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Cfdis.App.Api.Client</span><span class="p">;</span>
-<span class="n">Cfdi33Client</span> <span class="n">cliente</span><span class="p">;</span>
-<span class="n">cliente</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Cfdi33Client</span><span class="p">(</span><span class="s">"API_ID"</span><span class="p">,</span> <span class="s">"API_SECRET"</span><span class="p">);</span>  
+<span class="n">CfdiClient</span> <span class="n">cliente</span><span class="p">;</span>
+<span class="n">cliente</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">CfdiClient</span><span class="p">(</span><span class="s">"API_ID"</span><span class="p">,</span> <span class="s">"API_SECRET"</span><span class="p">);</span>  
 <span class="n">Cfdi</span> <span class="n">cfdi</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Cfdi</span><span class="p">();</span>
 <span class="n">cfdi</span><span class="p">.</span><span class="n">Moneda</span> <span class="p">=</span> <span class="s">"MXN"</span><span class="p">;</span>
 <span class="n">cfdi</span><span class="p">.</span><span class="n">Receptor</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Receptor</span><span class="p">();</span>
@@ -455,11 +449,11 @@ curl <span class="s2">"http://backend.demo.facturabilidad.com/api/Cfdi33/timbrar
 <h3 id='http-request'>HTTP Request</h3>
 <p>Productivo:</p>
 
-<p><code>POST https://backend.facturabilidad.com/api/Cfdi33/timbrar</code></p>
+<p><code>POST https://backend.facturabilidad.com/api/Cfdi/gurdar</code></p>
 
 <p>Pruebas:</p>
 
-<p><code>POST http://backend.demo.facturabilidad.com/api/Cfdi33/timbrar</code></p>
+<p><code>POST http://backend.demo.facturabilidad.com/api/Cfdi/gurdar</code></p>
 
 <p>Éste método regresa el código HTTP 200 en caso de éxito y una respuesta JSON.</p>
 
@@ -469,44 +463,93 @@ curl <span class="s2">"http://backend.demo.facturabilidad.com/api/Cfdi33/timbrar
 cfdi.json
 <p style="white-space: pre;background-color: white;overflow: auto;">
 {
-    &quot;Emisor&quot;:{
-        &quot;RegimenFiscal&quot;: &quot;601&quot;
-    },
-    &quot;Receptor&quot;: {
-        &quot;Rfc&quot;: &quot;XAXX010101000&quot;,
-        &quot;Nombre&quot;: &quot;Publico en general&quot;,
-        &quot;UsoCFDI&quot;: &quot;G03&quot;
-    },
-    &quot;Conceptos&quot;: {
-        &quot;Concepto&quot;: [
-            {
-                &quot;Cantidad&quot;: 1,
-                &quot;Impuestos&quot;: {
-                    &quot;Traslados&quot;: {
-                        &quot;Traslado&quot;: [
-                            {
-                                &quot;Impuesto&quot;: &quot;002&quot;,
-                                &quot;TasaOCuota&quot;: &quot;0.160000&quot;,
-                                &quot;TipoFactor&quot;: &quot;Tasa&quot;,
-                                &quot;Base&quot;: &quot;10.000&quot;
-                            }
-                        ]
+    &quot;timbrar&quot;: true
+    &quot;cfdi&quot;: {
+        &quot;id&quot;:null,
+        &quot;Comprobante&quot;: {
+            &quot;Complemento&quot;: {
+                &quot;ImpuestosLocales&quot;: {
+                    &quot;<strong>prefix</strong>&quot;: &quot;implocal:&quot;,
+                    &quot;RetencionesLocales&quot;: [],
+                    &quot;TotaldeRetenciones&quot;: 0,
+                    &quot;TotaldeTraslados&quot;: 5,
+                    &quot;TrasladosLocales&quot;: [
+                        {
+                            &quot;ImpLocTrasladado&quot;: &quot;5 al millar&quot;,
+                            &quot;Importe&quot;: 5,
+                            &quot;TasadeTraslado&quot;: 0.5
+                        }
+                    ],
+                    &quot;version&quot;: &quot;1.0&quot;
+                }
+            },
+            &quot;Conceptos&quot;: {
+                &quot;Concepto&quot;: [
+                    {
+                        &quot;_Iva&quot;: false,
+                        &quot;Cantidad&quot;: 1,
+                        &quot;ClaveProdServ&quot;: &quot;10214001&quot;,
+                        &quot;ClaveUnidad&quot;: &quot;H87&quot;,
+                        &quot;CuentaPredial&quot;: [],
+                        &quot;Descripcion&quot;: &quot;cosa&quot;,
+                        &quot;Descuento&quot;: &quot;&quot;,
+                        &quot;Importe&quot;: 120.89,
+                        &quot;NoIdentificacion&quot;: &quot;21&quot;,
+                        &quot;ObjetoImp&quot;: &quot;01&quot;,
+                        &quot;Unidad&quot;: null,
+                        &quot;ValorUnitario&quot;: &quot;120.890000&quot;
                     }
-                },
-                &quot;ClaveProdServ&quot;: &quot;01010101&quot;,
-                &quot;ClaveUnidad&quot;: &quot;H87&quot;,
-                &quot;Descripcion&quot;: &quot;none&quot;,
-                &quot;ValorUnitario&quot;: &quot;10.000000&quot;
-            }
-        ]
-    },
-    &quot;TipoDeComprobante&quot;: &quot;I&quot;,
-    &quot;LugarExpedicion&quot;: &quot;12345&quot;,
-    &quot;FormaPago&quot;: &quot;03&quot;,
-    &quot;MetodoPago&quot;: &quot;PUE&quot;,
-    &quot;Moneda&quot;: &quot;MXN&quot;
+                ]
+            },
+            &quot;CondicionesDePago&quot;: &quot;&quot;,
+            &quot;Confirmacion&quot;: &quot;&quot;,
+            &quot;Descuento&quot;: &quot;&quot;,
+            &quot;Emisor&quot;: {
+                &quot;Nombre&quot;: &quot;ESCUELA KEMPER URGATE&quot;,
+                &quot;RegimenFiscal&quot;: &quot;626&quot;,
+                &quot;Rfc&quot;: &quot;EKU9003173C9&quot;
+            },
+            &quot;Exportacion&quot;: &quot;01&quot;,
+            &quot;Fecha&quot;: &quot;2023-08-16T02:31:38&quot;,
+            &quot;FormaPago&quot;: &quot;03&quot;,
+            &quot;LugarExpedicion&quot;: &quot;43909&quot;,
+            &quot;MetodoPago&quot;: &quot;PUE&quot;,
+            &quot;Moneda&quot;: &quot;MXN&quot;,
+            &quot;Receptor&quot;: {
+                &quot;DomicilioFiscalReceptor&quot;: &quot;43909&quot;,
+                &quot;Nombre&quot;: &quot;Publico X&quot;,
+                &quot;NumRegIdTrib&quot;: null,
+                &quot;RegimenFiscalReceptor&quot;: &quot;616&quot;,
+                &quot;ResidenciaFiscal&quot;: null,
+                &quot;Rfc&quot;: &quot;XAXX010101000&quot;,
+                &quot;UsoCFDI&quot;: &quot;S01&quot;
+            },
+            &quot;Sello&quot;: null,
+            &quot;Serie&quot;: &quot;&quot;,
+            &quot;SubTotal&quot;: &quot;120.89&quot;,
+            &quot;TipoCambio&quot;: null,
+            &quot;TipoDeComprobante&quot;: &quot;I&quot;,
+            &quot;Total&quot;: &quot;125.89&quot;,
+            &quot;Version&quot;: &quot;4.0&quot;,
+            &quot;xmlns:implocal&quot;: &quot;http://www.sat.gob.mx/implocal&quot;,
+            &quot;xmlns:xsi&quot;: &quot;http://www.w3.org/2001/XMLSchema-instance&quot;,
+            &quot;xsi:schemaLocation&quot;: &quot;http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd http://www.sat.gob.mx/implocal http://www.sat.gob.mx/sitio_internet/cfd/implocal/implocal.xsd&quot;
+        }
+    }
 }
 </p></p>
+
+<p>
+la propiedad timbrar indica si se desea timbrar el cfdi o solo guardarlo para obtener una vista previa del PDF. Una vez que un cfdi se ha guardado en la respuesta se regresa el id del cfdi generado.
+</p>
+
+<p>
+Para timbrar  un cfdi guardado previamente pude hacer una petición POST o GET a la ruta /api/Cfdi/timbrar/{id} donde id es el id del cfdi que se desea timbrar.
+</p>
+
+<p>
+Para modificar un cfdi previamente guardado se debe enviar una peticion POST a la ruta /api/Cfdi/gurdar con el id del cfdi a modificar en la propiedad id en el objeto cfdi. Solo se pueden modificar los cfdi que no han sido timbrados.
+</p>
 <h3 id='http-response'>HTTP Response</h3>
 <table><thead>
 <tr>
@@ -516,7 +559,7 @@ cfdi.json
 </thead><tbody>
 <tr>
 <td>200</td>
-<td><code>{</code><br><code>&quot;success&quot;:true</code><br><code>,&quot;factura&quot;:{</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>&quot;factura_id&quot;:&quot;378961&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xml&quot;:&quot;&lt;cfdi:Comprobante&gt;...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xmlUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;pdf&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;pdfUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;notas&quot;:&quot;Factura generada con éxito!&quot;</code><br><code>}</code><br><code>}</code></td>
+<td><code>{</code><br><code>&quot;response&quot;:{</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>&quot;cfdiId&quot;:&quot;337&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xml&quot;:&quot;&lt;cfdi:Comprobante&gt;...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xmlUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;pdfUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><code>,&quot;errorTimbrado&quot;:&quot;&quot;</code><br><code>}</code><br><code>}</code></td>
 </tr>
 <tr>
 <td>400</td>
@@ -528,8 +571,6 @@ cfdi.json
       <div class="dark-box">
           <div class="lang-selector">
                 <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="php">php</a>
-                <a href="#" data-language-name="csharp">csharp</a>
           </div>
       </div>
     </div>
