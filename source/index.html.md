@@ -3,15 +3,10 @@ title: API Facturabilidad
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-#   - php
-#   - csharp
 
 
 toc_footers:
   - <a>Código Fuente:</a>
-#   - <a href='https://github.com/cfdis/php' target="_blank">PHP</a>
-#   - <a href='https://github.com/cfdis/.net' target="_blank">.NET</a>
-#   - <a href='https://github.com/cfdis/netcore' target="_blank">.NET Core</a>
   - <a href='https://github.com/cfdis/shell' target="_blank">Linux shell</a>
 search: true
 
@@ -24,13 +19,13 @@ code_clipboard: true
 
 Conecta cualquier sistema (TPV, ERP, eCommerce, etc) con nuestra API REST para emitir Comprobantes Fiscales Digitales en México.
 
-Tenemos ejemplos de implementación en diferentes lenguajes de programación como: Shell, PHP, y .NET Core. Puedes ver los ejemplos de código en el área obscura a la derecha, y puedes cambiar el lenguaje de programación de los ejemplos con las pestañas en la esquina superior derecha.
+Tenemos ejemplos de implementación en diferentes lenguajes de programación como: Shell.
 
 Para generar tus credenciales de API ve a 
 <a href="https://app.facturabilidad.com/v3" target="_blank">app.facturabilidad.com/v3</a>
  elige el RFC a conectar, ve al menú Ajustes->Api y da click en el botón *Generar nueva credencial*.
 <aside class="notice">
-<a href="http://demo.facturabilidad.com/v3/pruebas" target="_blank">pruebas.facturabilidad.com/v3/pruebas</a> para pruebas.
+<a href="https://pruebas.facturabilidad.com/v3/pruebas" target="_blank">pruebas.facturabilidad.com/v3/pruebas</a> para pruebas.
 </aside>
 
 # Autenticación
@@ -47,25 +42,6 @@ token=$(echo -ne "$api_id:$api_secret" | base64 --wrap 0)
 curl "http://backend.pruebas.facturabilidad.com/api"\
   -H "Authorization: Basic $token"
 
-```
-
-```php
-use Facturabilidad\CfdiClient;
-#crea una instancia de la clase CfdiClient
-#Con los parametros API_ID, API_SECRET
-#El tercer parámetro indica si se usará el ambiente productivo.
-#Si no se indica este parámetro se queda en false(ambiente de pruebas).
-$cliente = new CfdiClient("API_ID", "API_SECRET", [false]);
-```
-
-```csharp
-using Cfdis.App.Api.CfdiClient;
-//crea una instancia de la clase CfdiClient
-//Con los parámetros API_ID, API_SECRET
-//El tercer parámetro indica si se usará el ambiente productivo.
-//Si no se indica este parámetro se queda en false(ambiente de pruebas).
-CfdiClient cliente;
-cliente = new CfdiClient("API_ID", "API_SECRET", [false]);  
 ```
 
 > Reemplaza `API_ID` y  `API_SECRET` con tus credenciales.
@@ -94,65 +70,19 @@ ve al menú Ajustes->Api y da click en el botón <b>Generar nueva credencial</b>
 
 # CFDI
 
-## Timbrado
+## Guardar CFDI
 
-> Envía una petición POST con el CFDI en formato JSON.
+> Envía una petición POST con el CFDI en formato JSON. Opcionalmente se puede timbrar el CFDI al mismo tiempo.
 
 
 ```shell
 # Enviar el cfdi en formato JSON, 
 # puedes usar -d @ para indicar un archivo que contenga el JSON
 # o directamente pasar la cadena JSON con -d '$json_cfdi'
-curl "http://backend.pruebas.facturabilidad.com/api/Cfdi/timbrar"\
+curl "http://backend.pruebas.facturabilidad.com/api/Cfdi/guardar"\
     -H "Authorization: Basic $token"\
     -d @cfdi.json # -d '{"Emisor":{ ... } ... }'
 
-```
-
-```php
-use Facturabilidad\CfdiClient;
-$cliente = new CfdiClient("API_ID", "API_SECRET");
-$jsonCfdi = file_get_contents('cfdi.json');
-$cfdi = json_decode($jsonCfdi);
-$response = $client->timbrar($cfdi);
-try {
-    $response = $client->timbrar($cfdi);
-    if (is_string($response)) {
-        echo 'Mensaje: ' . $response;
-    } else {
-        echo "Cfdi generado exitosamente"
-        ." con id {$response->factura->factura_id} "
-        ." Descarga el pdf desde {$response->factura->pdfUrl}";
-    }
-    var_dump($response);
-} catch (\Exception $e) {
-    echo $e->getMessage();
-}
-```
-
-```csharp
-using Cfdis.App.Api.Client;
-CfdiClient cliente;
-cliente = new CfdiClient("API_ID", "API_SECRET");  
-Cfdi cfdi = new Cfdi();
-cfdi.Moneda = "MXN";
-cfdi.Receptor = new Receptor();
-cfdi.Receptor.Rfc = "XAXX010101000";
-cfdi.Receptor.Nombre = "Publico en general";
-cfdi.Receptor.UsoCFDI = "G03";
-
-try
-{
-    ApiResult response = cliente.timbrar(cfdi);
-
-    Console.WriteLine("Cfdi generado exitosamente con id "
-    	+ response.cfdiId
-        + " Descarga el pdf desde " + response.pdfUrl);
-}
-catch (Exception e)
-{
-    Console.WriteLine(e.Message);
-}
 ```
 
 Envía el CFDI en formato JSON por POST
@@ -160,10 +90,10 @@ Envía el CFDI en formato JSON por POST
 ###HTTP Request
 
 <p>Productivo:</p>
-`POST https://backend.facturabilidad.com/api/Cfdi/gurdar`
+`POST https://backend.facturabilidad.com/api/Cfdi/guardar`
 
 <p>Pruebas:</p>
-`POST http://backend.demo.facturabilidad.com/api/Cfdi/gurdar`
+`POST http://backend.pruebas.facturabilidad.com/api/Cfdi/guardar`
 
 
 Éste método regresa el código HTTP 200 en caso de éxito y una respuesta JSON.
@@ -254,16 +184,124 @@ cfdi.json
 la propiedad timbrar indica si se desea timbrar el cfdi o solo guardarlo para obtener una vista previa del PDF. Una vez que un cfdi se ha guardado en la respuesta se regresa el id del cfdi generado.
 </p>
 <p>
-Para timbrar  un cfdi guardado previamente pude hacer una petición POST o GET a la ruta /api/Cfdi/timbrar/{id} donde id es el id del cfdi que se desea timbrar.
+Para modificar un cfdi previamente guardado se debe enviar una peticion POST a la ruta /api/Cfdi/guardar con el id del cfdi a modificar en la propiedad id en el objeto cfdi. Solo se pueden modificar los cfdi que no han sido timbrados.
 </p>
-<p>
-Para modificar un cfdi previamente guardado se debe enviar una peticion POST a la ruta /api/Cfdi/gurdar con el id del cfdi a modificar en la propiedad id en el objeto cfdi. Solo se pueden modificar los cfdi que no han sido timbrados.
-</p>
+
 
 
 ###HTTP Response
 
 HTTP Code | Ejemplo
 --------- | -----------
-200 | `{`<br>`"response":{`<br>&nbsp;&nbsp;&nbsp;&nbsp;`"cfdiId":"337"`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"xml":"<cfdi:Comprobante>..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"xmlUrl":"http://..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"pdfUrl":"http://..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>`,"errorTimbrado":""`<br>`}`<br>`}`
-400|`"CFDI33101:cfdi:Comprobante:Fecha - El rango de la fecha de generación es mayor a 72 horas"`
+200 | `{`<br>`"response":{`<br>&nbsp;&nbsp;&nbsp;&nbsp;`"cfdiId":"337"`<br>&nbsp;&nbsp;&nbsp;&nbsp;`"timbrado":true`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"xml":"<cfdi:Comprobante>..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"xmlUrl":"http://..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"pdfUrl":"http://..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>`,"errorTimbrado":""`<br>`}`<br>`}`
+200 | `{`<br>`"response":{`<br>&nbsp;&nbsp;&nbsp;&nbsp;`"cfdiId":"337"`<br>&nbsp;&nbsp;&nbsp;&nbsp;`"timbrado":false`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"xml":"<cfdi:Comprobante>..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"xmlUrl":"http://..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"pdfUrl":"http://..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>`,"errorTimbrado":"401 - El rango de la fecha de generación no debe de ser mayor a 72 horas para la emisión del timbre."`<br>`}`<br>`}`
+400|`{"response": "No se encontró el cfdi con id: 3457"}`
+400|`{"response": "No se permite modificar facturas con estatus Timbrado"}`
+500|`{"response": "Error inesperado, por favor verifique en el portal si los datos fueron guardados antes de hacer otro intento."}`
+
+
+## Timbrar CFDI
+
+> Permite timbrar  un cfdi previamente guardado. Pude hacer una petición POST o GET a la ruta /api/Cfdi/timbrar/{id} donde id es el id del cfdi que se desea timbrar.
+
+```shell
+# Envia solicitud GET para timbrar el cfdi con id 337
+curl "http://backend.pruebas.facturabilidad.com/api/Cfdi/timbrar/337"\
+    -H "Authorization: Basic $token"\
+
+```
+
+###HTTP Request
+
+<p>Productivo:</p>
+`POST https://backend.facturabilidad.com/api/Cfdi/timbra/{id}`
+
+<p>Pruebas:</p>
+`POST http://backend.pruebas.facturabilidad.com/api/Cfdi/timbra/{id}`
+
+
+
+###HTTP Response
+
+HTTP Code | Ejemplo
+--------- | -----------
+200 | `{`<br>`"response":{`<br>&nbsp;&nbsp;&nbsp;&nbsp;`"cfdiId":"337"`<br>&nbsp;&nbsp;&nbsp;&nbsp;`"timbrado":true`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"xml":"<cfdi:Comprobante>..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"xmlUrl":"http://..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"pdfUrl":"http://..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>`,"errorTimbrado":""`<br>`}`<br>`}`
+200 | `{`<br>`"response":{`<br>&nbsp;&nbsp;&nbsp;&nbsp;`"cfdiId":"337"`<br>&nbsp;&nbsp;&nbsp;&nbsp;`"timbrado":false`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"xml":"<cfdi:Comprobante>..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"xmlUrl":"http://..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;`,"pdfUrl":"http://..."`<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>`,"errorTimbrado":"401 - El rango de la fecha de generación no debe de ser mayor a 72 horas para la emisión del timbre."`<br>`}`<br>`}`
+400|`{"response": "No se encontró el cfdi con id: 3457"}`
+400|`{"response": "No se permite modificar facturas con estatus Timbrado"}`
+
+
+## Recuperar CFDI previamente guardado
+
+> Permite recuperar un cfdi previamente guardado. Pude hacer una petición GET a la ruta /api/Cfdi//json/{id} donde id es el id del cfdi que se desea recuperar.
+
+```shell
+# Envia solicitud GET para recuperar el cfdi con id 337
+curl "http://backend.pruebas.facturabilidad.com/api/Cfdi/json/337"\
+    -H "Authorization: Basic $token"\
+
+```
+
+
+###HTTP Request
+
+<p>Productivo:</p>
+`GET https://backend.facturabilidad.com/api/Cfdi/json/{id}`
+<p>Pruebas:</p>
+`GET http://backend.pruebas.facturabilidad.com/api/Cfdi/json/{id}`
+
+###HTTP Response
+
+HTTP Code | Ejemplo
+--------- | -----------
+200 | `{    "Version": "4.0",    "Serie": null,    "Folio": 1,    "Fecha": "2023-09-07T03:29:22"...}`
+400|`{    "response": "No se encontró el cfdi con id: 3445",    "output": ""}`
+
+
+## Recuperar XML de un CFDI previamente guardado
+
+> Permite recuperar el xml de un cfdi previamente guardado. Pude hacer una petición GET a la ruta /api/Cfdi/xml/{id} donde id es el id del cfdi que se desea recuperar.
+
+```shell
+# Envia solicitud GET para recuperar el cfdi con id 337
+curl "http://backend.pruebas.facturabilidad.com/api/Cfdi/xml/337"\
+    -H "Authorization: Basic $token"\
+```
+
+###HTTP Request
+
+<p>Productivo:</p>
+`GET https://backend.facturabilidad.com/api/Cfdi/xml/{id}`
+<p>Pruebas:</p>
+`GET http://backend.pruebas.facturabilidad.com/api/Cfdi/xml/{id}`
+
+###HTTP Response
+
+HTTP Code | Ejemplo
+--------- | -----------
+200 | `<?xml version="1.0" encoding="UTF-8"?> <cfdi:Comprobante...`
+400|`{    "response": "No se encontró el cfdi con id: 3445",    "output": ""}`
+
+## Recuperar PDF de un CFDI previamente guardado
+
+> Permite recuperar el pdf de un cfdi previamente guardado. Pude hacer una petición GET a la ruta /api/Cfdi/pdf/{id} donde id es el id del cfdi que se desea recuperar.
+
+```shell
+# Envia solicitud GET para recuperar el cfdi con id 337
+curl "http://backend.pruebas.facturabilidad.com/api/Cfdi/pdf/337"\
+    -H "Authorization: Basic $token"\
+```
+
+###HTTP Request
+
+<p>Productivo:</p>
+`GET https://backend.facturabilidad.com/api/Cfdi/pdf/{id}`
+<p>Pruebas:</p>
+`GET http://backend.pruebas.facturabilidad.com/api/Cfdi/pdf/{id}`
+
+###HTTP Response
+
+HTTP Code | Ejemplo
+--------- | -----------
+200 | [BINARY_FILE]
+400|`{    "response": "No se encontró el cfdi con id: 3445",    "output": ""}`
