@@ -318,7 +318,19 @@
             <a href="#cfdi" class="toc-h1 toc-link" data-title="CFDI">CFDI</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#timbrado" class="toc-h2 toc-link" data-title="Timbrado">Timbrado</a>
+                    <a href="#guardar-cfdi" class="toc-h2 toc-link" data-title="Guardar CFDI">Guardar CFDI</a>
+                  </li>
+                  <li>
+                    <a href="#timbrar-cfdi" class="toc-h2 toc-link" data-title="Timbrar CFDI">Timbrar CFDI</a>
+                  </li>
+                  <li>
+                    <a href="#recuperar-cfdi-previamente-guardado" class="toc-h2 toc-link" data-title="Recuperar CFDI previamente guardado">Recuperar CFDI previamente guardado</a>
+                  </li>
+                  <li>
+                    <a href="#recuperar-xml-de-un-cfdi-previamente-guardado" class="toc-h2 toc-link" data-title="Recuperar XML de un CFDI previamente guardado">Recuperar XML de un CFDI previamente guardado</a>
+                  </li>
+                  <li>
+                    <a href="#recuperar-pdf-de-un-cfdi-previamente-guardado" class="toc-h2 toc-link" data-title="Recuperar PDF de un CFDI previamente guardado">Recuperar PDF de un CFDI previamente guardado</a>
                   </li>
               </ul>
           </li>
@@ -335,13 +347,13 @@
 <h1 id='introduccion'>Introducción</h1>
 <p>Conecta cualquier sistema (TPV, ERP, eCommerce, etc) con nuestra API REST para emitir Comprobantes Fiscales Digitales en México.</p>
 
-<p>Tenemos ejemplos de implementación en diferentes lenguajes de programación como: Shell, PHP, y .NET Core. Puedes ver los ejemplos de código en el área obscura a la derecha, y puedes cambiar el lenguaje de programación de los ejemplos con las pestañas en la esquina superior derecha.</p>
+<p>Tenemos ejemplos de implementación en diferentes lenguajes de programación como: Shell.</p>
 
 <p>Para generar tus credenciales de API ve a 
 <a href="https://app.facturabilidad.com/v3" target="_blank">app.facturabilidad.com/v3</a>
  elige el RFC a conectar, ve al menú Ajustes-&gt;Api y da click en el botón <em>Generar nueva credencial</em>.
 <aside class="notice">
-<a href="http://demo.facturabilidad.com/v3/pruebas" target="_blank">pruebas.facturabilidad.com/v3/pruebas</a> para pruebas.
+<a href="https://pruebas.facturabilidad.com/v3/pruebas" target="_blank">pruebas.facturabilidad.com/v3/pruebas</a> para pruebas.
 </aside></p>
 <h1 id='autenticacion'>Autenticación</h1>
 <blockquote>
@@ -355,19 +367,6 @@
 curl <span class="s2">"http://backend.pruebas.facturabilidad.com/api"</span><span class="se">\</span>
   <span class="nt">-H</span> <span class="s2">"Authorization: Basic </span><span class="nv">$token</span><span class="s2">"</span>
 
-</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="kn">use</span> <span class="nc">Facturabilidad\CfdiClient</span><span class="p">;</span>
-<span class="c1">#crea una instancia de la clase CfdiClient</span>
-<span class="c1">#Con los parametros API_ID, API_SECRET</span>
-<span class="c1">#El tercer parámetro indica si se usará el ambiente productivo.</span>
-<span class="c1">#Si no se indica este parámetro se queda en false(ambiente de pruebas).</span>
-<span class="nv">$cliente</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CfdiClient</span><span class="p">(</span><span class="s2">"API_ID"</span><span class="p">,</span> <span class="s2">"API_SECRET"</span><span class="p">,</span> <span class="p">[</span><span class="kc">false</span><span class="p">]);</span>
-</code></pre></div><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Cfdis.App.Api.CfdiClient</span><span class="p">;</span>
-<span class="c1">//crea una instancia de la clase CfdiClient</span>
-<span class="c1">//Con los parámetros API_ID, API_SECRET</span>
-<span class="c1">//El tercer parámetro indica si se usará el ambiente productivo.</span>
-<span class="c1">//Si no se indica este parámetro se queda en false(ambiente de pruebas).</span>
-<span class="n">CfdiClient</span> <span class="n">cliente</span><span class="p">;</span>
-<span class="n">cliente</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">CfdiClient</span><span class="p">(</span><span class="s">"API_ID"</span><span class="p">,</span> <span class="s">"API_SECRET"</span><span class="p">,</span> <span class="p">[</span><span class="k">false</span><span class="p">]);</span>  
 </code></pre></div>
 <blockquote>
 <p>Reemplaza <code>API_ID</code> y  <code>API_SECRET</code> con tus credenciales.</p>
@@ -396,67 +395,27 @@ ve al menú Ajustes->Api y da click en el botón <b>Generar nueva credencial</b>
     </p>
     <small>Nota: las cuentas de prueba se generan con un correo aleatorio de yopmail y son desechables, la cuenta se pierde cuando se termina la sesión.</small>
 </aside>
-<h1 id='cfdi'>CFDI</h1><h2 id='timbrado'>Timbrado</h2>
+<h1 id='cfdi'>CFDI</h1><h2 id='guardar-cfdi'>Guardar CFDI</h2>
 <blockquote>
-<p>Envía una petición POST con el CFDI en formato JSON.</p>
+<p>Envía una petición POST con el CFDI en formato JSON. Opcionalmente se puede timbrar el CFDI al mismo tiempo.</p>
 </blockquote>
 <div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># Enviar el cfdi en formato JSON, </span>
 <span class="c"># puedes usar -d @ para indicar un archivo que contenga el JSON</span>
 <span class="c"># o directamente pasar la cadena JSON con -d '$json_cfdi'</span>
-curl <span class="s2">"http://backend.pruebas.facturabilidad.com/api/Cfdi/timbrar"</span><span class="se">\</span>
+curl <span class="s2">"http://backend.pruebas.facturabilidad.com/api/Cfdi/guardar"</span><span class="se">\</span>
     <span class="nt">-H</span> <span class="s2">"Authorization: Basic </span><span class="nv">$token</span><span class="s2">"</span><span class="se">\</span>
     <span class="nt">-d</span> @cfdi.json <span class="c"># -d '{"Emisor":{ ... } ... }'</span>
 
-</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="kn">use</span> <span class="nc">Facturabilidad\CfdiClient</span><span class="p">;</span>
-<span class="nv">$cliente</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CfdiClient</span><span class="p">(</span><span class="s2">"API_ID"</span><span class="p">,</span> <span class="s2">"API_SECRET"</span><span class="p">);</span>
-<span class="nv">$jsonCfdi</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'cfdi.json'</span><span class="p">);</span>
-<span class="nv">$cfdi</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$jsonCfdi</span><span class="p">);</span>
-<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">timbrar</span><span class="p">(</span><span class="nv">$cfdi</span><span class="p">);</span>
-<span class="k">try</span> <span class="p">{</span>
-    <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">timbrar</span><span class="p">(</span><span class="nv">$cfdi</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nb">is_string</span><span class="p">(</span><span class="nv">$response</span><span class="p">))</span> <span class="p">{</span>
-        <span class="k">echo</span> <span class="s1">'Mensaje: '</span> <span class="mf">.</span> <span class="nv">$response</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="k">echo</span> <span class="s2">"Cfdi generado exitosamente"</span>
-        <span class="mf">.</span><span class="s2">" con id </span><span class="si">{</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="n">factura</span><span class="o">-&gt;</span><span class="n">factura_id</span><span class="si">}</span><span class="s2"> "</span>
-        <span class="mf">.</span><span class="s2">" Descarga el pdf desde </span><span class="si">{</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="n">factura</span><span class="o">-&gt;</span><span class="n">pdfUrl</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="nb">var_dump</span><span class="p">(</span><span class="nv">$response</span><span class="p">);</span>
-<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="err">\</span><span class="nc">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Cfdis.App.Api.Client</span><span class="p">;</span>
-<span class="n">CfdiClient</span> <span class="n">cliente</span><span class="p">;</span>
-<span class="n">cliente</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">CfdiClient</span><span class="p">(</span><span class="s">"API_ID"</span><span class="p">,</span> <span class="s">"API_SECRET"</span><span class="p">);</span>  
-<span class="n">Cfdi</span> <span class="n">cfdi</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Cfdi</span><span class="p">();</span>
-<span class="n">cfdi</span><span class="p">.</span><span class="n">Moneda</span> <span class="p">=</span> <span class="s">"MXN"</span><span class="p">;</span>
-<span class="n">cfdi</span><span class="p">.</span><span class="n">Receptor</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Receptor</span><span class="p">();</span>
-<span class="n">cfdi</span><span class="p">.</span><span class="n">Receptor</span><span class="p">.</span><span class="n">Rfc</span> <span class="p">=</span> <span class="s">"XAXX010101000"</span><span class="p">;</span>
-<span class="n">cfdi</span><span class="p">.</span><span class="n">Receptor</span><span class="p">.</span><span class="n">Nombre</span> <span class="p">=</span> <span class="s">"Publico en general"</span><span class="p">;</span>
-<span class="n">cfdi</span><span class="p">.</span><span class="n">Receptor</span><span class="p">.</span><span class="n">UsoCFDI</span> <span class="p">=</span> <span class="s">"G03"</span><span class="p">;</span>
-
-<span class="k">try</span>
-<span class="p">{</span>
-    <span class="n">ApiResult</span> <span class="n">response</span> <span class="p">=</span> <span class="n">cliente</span><span class="p">.</span><span class="nf">timbrar</span><span class="p">(</span><span class="n">cfdi</span><span class="p">);</span>
-
-    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">"Cfdi generado exitosamente con id "</span>
-        <span class="p">+</span> <span class="n">response</span><span class="p">.</span><span class="n">cfdiId</span>
-        <span class="p">+</span> <span class="s">" Descarga el pdf desde "</span> <span class="p">+</span> <span class="n">response</span><span class="p">.</span><span class="n">pdfUrl</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">Message</span><span class="p">);</span>
-<span class="p">}</span>
 </code></pre></div>
 <p>Envía el CFDI en formato JSON por POST</p>
 <h3 id='http-request'>HTTP Request</h3>
 <p>Productivo:</p>
 
-<p><code>POST https://backend.facturabilidad.com/api/Cfdi/gurdar</code></p>
+<p><code>POST https://backend.facturabilidad.com/api/Cfdi/guardar</code></p>
 
 <p>Pruebas:</p>
 
-<p><code>POST http://backend.demo.facturabilidad.com/api/Cfdi/gurdar</code></p>
+<p><code>POST http://backend.pruebas.facturabilidad.com/api/Cfdi/guardar</code></p>
 
 <p>Éste método regresa el código HTTP 200 en caso de éxito y una respuesta JSON.</p>
 
@@ -547,11 +506,7 @@ la propiedad timbrar indica si se desea timbrar el cfdi o solo guardarlo para ob
 </p>
 
 <p>
-Para timbrar  un cfdi guardado previamente pude hacer una petición POST o GET a la ruta /api/Cfdi/timbrar/{id} donde id es el id del cfdi que se desea timbrar.
-</p>
-
-<p>
-Para modificar un cfdi previamente guardado se debe enviar una peticion POST a la ruta /api/Cfdi/gurdar con el id del cfdi a modificar en la propiedad id en el objeto cfdi. Solo se pueden modificar los cfdi que no han sido timbrados.
+Para modificar un cfdi previamente guardado se debe enviar una peticion POST a la ruta /api/Cfdi/guardar con el id del cfdi a modificar en la propiedad id en el objeto cfdi. Solo se pueden modificar los cfdi que no han sido timbrados.
 </p>
 <h3 id='http-response'>HTTP Response</h3>
 <table><thead>
@@ -562,11 +517,151 @@ Para modificar un cfdi previamente guardado se debe enviar una peticion POST a l
 </thead><tbody>
 <tr>
 <td>200</td>
-<td><code>{</code><br><code>&quot;response&quot;:{</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>&quot;cfdiId&quot;:&quot;337&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xml&quot;:&quot;&lt;cfdi:Comprobante&gt;...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xmlUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;pdfUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><code>,&quot;errorTimbrado&quot;:&quot;&quot;</code><br><code>}</code><br><code>}</code></td>
+<td><code>{</code><br><code>&quot;response&quot;:{</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>&quot;cfdiId&quot;:&quot;337&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>&quot;timbrado&quot;:true</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xml&quot;:&quot;&lt;cfdi:Comprobante&gt;...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xmlUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;pdfUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><code>,&quot;errorTimbrado&quot;:&quot;&quot;</code><br><code>}</code><br><code>}</code></td>
+</tr>
+<tr>
+<td>200</td>
+<td><code>{</code><br><code>&quot;response&quot;:{</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>&quot;cfdiId&quot;:&quot;337&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>&quot;timbrado&quot;:false</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xml&quot;:&quot;&lt;cfdi:Comprobante&gt;...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xmlUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;pdfUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><code>,&quot;errorTimbrado&quot;:&quot;401 - El rango de la fecha de generación no debe de ser mayor a 72 horas para la emisión del timbre.&quot;</code><br><code>}</code><br><code>}</code></td>
 </tr>
 <tr>
 <td>400</td>
-<td><code>&quot;CFDI33101:cfdi:Comprobante:Fecha - El rango de la fecha de generación es mayor a 72 horas&quot;</code></td>
+<td><code>{&quot;response&quot;: &quot;No se encontró el cfdi con id: 3457&quot;}</code></td>
+</tr>
+<tr>
+<td>400</td>
+<td><code>{&quot;response&quot;: &quot;No se permite modificar facturas con estatus Timbrado&quot;}</code></td>
+</tr>
+<tr>
+<td>500</td>
+<td><code>{&quot;response&quot;: &quot;Error inesperado, por favor verifique en el portal si los datos fueron guardados antes de hacer otro intento.&quot;}</code></td>
+</tr>
+</tbody></table>
+<h2 id='timbrar-cfdi'>Timbrar CFDI</h2>
+<blockquote>
+<p>Permite timbrar  un cfdi previamente guardado. Pude hacer una petición POST o GET a la ruta /api/Cfdi/timbrar/{id} donde id es el id del cfdi que se desea timbrar.</p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># Envia solicitud GET para timbrar el cfdi con id 337</span>
+curl <span class="s2">"http://backend.pruebas.facturabilidad.com/api/Cfdi/timbrar/337"</span><span class="se">\</span>
+    <span class="nt">-H</span> <span class="s2">"Authorization: Basic </span><span class="nv">$token</span><span class="s2">"</span><span class="se">\</span>
+
+</code></pre></div><h3 id='http-request-2'>HTTP Request</h3>
+<p>Productivo:</p>
+
+<p><code>POST https://backend.facturabilidad.com/api/Cfdi/timbra/{id}</code></p>
+
+<p>Pruebas:</p>
+
+<p><code>POST http://backend.pruebas.facturabilidad.com/api/Cfdi/timbra/{id}</code></p>
+<h3 id='http-response-2'>HTTP Response</h3>
+<table><thead>
+<tr>
+<th>HTTP Code</th>
+<th>Ejemplo</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td><code>{</code><br><code>&quot;response&quot;:{</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>&quot;cfdiId&quot;:&quot;337&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>&quot;timbrado&quot;:true</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xml&quot;:&quot;&lt;cfdi:Comprobante&gt;...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xmlUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;pdfUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><code>,&quot;errorTimbrado&quot;:&quot;&quot;</code><br><code>}</code><br><code>}</code></td>
+</tr>
+<tr>
+<td>200</td>
+<td><code>{</code><br><code>&quot;response&quot;:{</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>&quot;cfdiId&quot;:&quot;337&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>&quot;timbrado&quot;:false</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xml&quot;:&quot;&lt;cfdi:Comprobante&gt;...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;xmlUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<code>,&quot;pdfUrl&quot;:&quot;http://...&quot;</code><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><code>,&quot;errorTimbrado&quot;:&quot;401 - El rango de la fecha de generación no debe de ser mayor a 72 horas para la emisión del timbre.&quot;</code><br><code>}</code><br><code>}</code></td>
+</tr>
+<tr>
+<td>400</td>
+<td><code>{&quot;response&quot;: &quot;No se encontró el cfdi con id: 3457&quot;}</code></td>
+</tr>
+<tr>
+<td>400</td>
+<td><code>{&quot;response&quot;: &quot;No se permite modificar facturas con estatus Timbrado&quot;}</code></td>
+</tr>
+</tbody></table>
+<h2 id='recuperar-cfdi-previamente-guardado'>Recuperar CFDI previamente guardado</h2>
+<blockquote>
+<p>Permite recuperar un cfdi previamente guardado. Pude hacer una petición GET a la ruta /api/Cfdi//json/{id} donde id es el id del cfdi que se desea recuperar.</p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># Envia solicitud GET para recuperar el cfdi con id 337</span>
+curl <span class="s2">"http://backend.pruebas.facturabilidad.com/api/Cfdi/json/337"</span><span class="se">\</span>
+    <span class="nt">-H</span> <span class="s2">"Authorization: Basic </span><span class="nv">$token</span><span class="s2">"</span><span class="se">\</span>
+
+</code></pre></div><h3 id='http-request-3'>HTTP Request</h3>
+<p>Productivo:</p>
+
+<p><code>GET https://backend.facturabilidad.com/api/Cfdi/json/{id}</code>
+<p>Pruebas:</p>
+<code>GET http://backend.pruebas.facturabilidad.com/api/Cfdi/json/{id}</code></p>
+<h3 id='http-response-3'>HTTP Response</h3>
+<table><thead>
+<tr>
+<th>HTTP Code</th>
+<th>Ejemplo</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td><code>{    &quot;Version&quot;: &quot;4.0&quot;,    &quot;Serie&quot;: null,    &quot;Folio&quot;: 1,    &quot;Fecha&quot;: &quot;2023-09-07T03:29:22&quot;...}</code></td>
+</tr>
+<tr>
+<td>400</td>
+<td><code>{    &quot;response&quot;: &quot;No se encontró el cfdi con id: 3445&quot;,    &quot;output&quot;: &quot;&quot;}</code></td>
+</tr>
+</tbody></table>
+<h2 id='recuperar-xml-de-un-cfdi-previamente-guardado'>Recuperar XML de un CFDI previamente guardado</h2>
+<blockquote>
+<p>Permite recuperar el xml de un cfdi previamente guardado. Pude hacer una petición GET a la ruta /api/Cfdi/xml/{id} donde id es el id del cfdi que se desea recuperar.</p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># Envia solicitud GET para recuperar el cfdi con id 337</span>
+curl <span class="s2">"http://backend.pruebas.facturabilidad.com/api/Cfdi/xml/337"</span><span class="se">\</span>
+    <span class="nt">-H</span> <span class="s2">"Authorization: Basic </span><span class="nv">$token</span><span class="s2">"</span><span class="se">\</span>
+</code></pre></div><h3 id='http-request-4'>HTTP Request</h3>
+<p>Productivo:</p>
+
+<p><code>GET https://backend.facturabilidad.com/api/Cfdi/xml/{id}</code>
+<p>Pruebas:</p>
+<code>GET http://backend.pruebas.facturabilidad.com/api/Cfdi/xml/{id}</code></p>
+<h3 id='http-response-4'>HTTP Response</h3>
+<table><thead>
+<tr>
+<th>HTTP Code</th>
+<th>Ejemplo</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;cfdi:Comprobante...</code></td>
+</tr>
+<tr>
+<td>400</td>
+<td><code>{    &quot;response&quot;: &quot;No se encontró el cfdi con id: 3445&quot;,    &quot;output&quot;: &quot;&quot;}</code></td>
+</tr>
+</tbody></table>
+<h2 id='recuperar-pdf-de-un-cfdi-previamente-guardado'>Recuperar PDF de un CFDI previamente guardado</h2>
+<blockquote>
+<p>Permite recuperar el pdf de un cfdi previamente guardado. Pude hacer una petición GET a la ruta /api/Cfdi/pdf/{id} donde id es el id del cfdi que se desea recuperar.</p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># Envia solicitud GET para recuperar el cfdi con id 337</span>
+curl <span class="s2">"http://backend.pruebas.facturabilidad.com/api/Cfdi/pdf/337"</span><span class="se">\</span>
+    <span class="nt">-H</span> <span class="s2">"Authorization: Basic </span><span class="nv">$token</span><span class="s2">"</span><span class="se">\</span>
+</code></pre></div><h3 id='http-request-5'>HTTP Request</h3>
+<p>Productivo:</p>
+
+<p><code>GET https://backend.facturabilidad.com/api/Cfdi/pdf/{id}</code>
+<p>Pruebas:</p>
+<code>GET http://backend.pruebas.facturabilidad.com/api/Cfdi/pdf/{id}</code></p>
+<h3 id='http-response-5'>HTTP Response</h3>
+<table><thead>
+<tr>
+<th>HTTP Code</th>
+<th>Ejemplo</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>[BINARY_FILE]</td>
+</tr>
+<tr>
+<td>400</td>
+<td><code>{    &quot;response&quot;: &quot;No se encontró el cfdi con id: 3445&quot;,    &quot;output&quot;: &quot;&quot;}</code></td>
 </tr>
 </tbody></table>
 
