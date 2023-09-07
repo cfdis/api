@@ -248,8 +248,11 @@
 .highlight .kd {
   color: #cb4b16;
 }
-.highlight .s, .highlight .sa, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
   color: #859900;
+}
+.highlight .sa {
+  color: #6c71c4;
 }
 .highlight .sr {
   color: #2aa198;
@@ -279,9 +282,9 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-c9d8fa83.css" rel="stylesheet" media="screen" />
-    <link href="stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all-e9bde216.js"></script>
+    <link href="stylesheets/screen-9c19b03a.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-966d6edc.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all-b12a2749.js"></script>
 
     <script>
       $(function() { setupCodeCopy(); });
@@ -352,12 +355,12 @@
 curl <span class="s2">"http://backend.pruebas.facturabilidad.com/api"</span><span class="se">\</span>
   <span class="nt">-H</span> <span class="s2">"Authorization: Basic </span><span class="nv">$token</span><span class="s2">"</span>
 
-</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="kn">use</span> <span class="nn">Facturabilidad\CfdiClient</span><span class="p">;</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="kn">use</span> <span class="nc">Facturabilidad\CfdiClient</span><span class="p">;</span>
 <span class="c1">#crea una instancia de la clase CfdiClient</span>
 <span class="c1">#Con los parametros API_ID, API_SECRET</span>
 <span class="c1">#El tercer parámetro indica si se usará el ambiente productivo.</span>
 <span class="c1">#Si no se indica este parámetro se queda en false(ambiente de pruebas).</span>
-<span class="nv">$cliente</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CfdiClient</span><span class="p">(</span><span class="s2">"API_ID"</span><span class="p">,</span> <span class="s2">"API_SECRET"</span><span class="p">,</span> <span class="p">[</span><span class="kc">false</span><span class="p">]);</span>
+<span class="nv">$cliente</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CfdiClient</span><span class="p">(</span><span class="s2">"API_ID"</span><span class="p">,</span> <span class="s2">"API_SECRET"</span><span class="p">,</span> <span class="p">[</span><span class="kc">false</span><span class="p">]);</span>
 </code></pre></div><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Cfdis.App.Api.CfdiClient</span><span class="p">;</span>
 <span class="c1">//crea una instancia de la clase CfdiClient</span>
 <span class="c1">//Con los parámetros API_ID, API_SECRET</span>
@@ -404,23 +407,23 @@ curl <span class="s2">"http://backend.pruebas.facturabilidad.com/api/Cfdi/timbra
     <span class="nt">-H</span> <span class="s2">"Authorization: Basic </span><span class="nv">$token</span><span class="s2">"</span><span class="se">\</span>
     <span class="nt">-d</span> @cfdi.json <span class="c"># -d '{"Emisor":{ ... } ... }'</span>
 
-</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="kn">use</span> <span class="nn">Facturabilidad\CfdiClient</span><span class="p">;</span>
-<span class="nv">$cliente</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CfdiClient</span><span class="p">(</span><span class="s2">"API_ID"</span><span class="p">,</span> <span class="s2">"API_SECRET"</span><span class="p">);</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="kn">use</span> <span class="nc">Facturabilidad\CfdiClient</span><span class="p">;</span>
+<span class="nv">$cliente</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CfdiClient</span><span class="p">(</span><span class="s2">"API_ID"</span><span class="p">,</span> <span class="s2">"API_SECRET"</span><span class="p">);</span>
 <span class="nv">$jsonCfdi</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'cfdi.json'</span><span class="p">);</span>
 <span class="nv">$cfdi</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$jsonCfdi</span><span class="p">);</span>
-<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">timbrar</span><span class="p">(</span><span class="nv">$cfdi</span><span class="p">);</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">timbrar</span><span class="p">(</span><span class="nv">$cfdi</span><span class="p">);</span>
 <span class="k">try</span> <span class="p">{</span>
-    <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">timbrar</span><span class="p">(</span><span class="nv">$cfdi</span><span class="p">);</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">timbrar</span><span class="p">(</span><span class="nv">$cfdi</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">is_string</span><span class="p">(</span><span class="nv">$response</span><span class="p">))</span> <span class="p">{</span>
-        <span class="k">echo</span> <span class="s1">'Mensaje: '</span> <span class="o">.</span> <span class="nv">$response</span><span class="p">;</span>
+        <span class="k">echo</span> <span class="s1">'Mensaje: '</span> <span class="mf">.</span> <span class="nv">$response</span><span class="p">;</span>
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
         <span class="k">echo</span> <span class="s2">"Cfdi generado exitosamente"</span>
-        <span class="o">.</span><span class="s2">" con id </span><span class="si">{</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">factura</span><span class="o">-&gt;</span><span class="na">factura_id</span><span class="si">}</span><span class="s2"> "</span>
-        <span class="o">.</span><span class="s2">" Descarga el pdf desde </span><span class="si">{</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">factura</span><span class="o">-&gt;</span><span class="na">pdfUrl</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span>
+        <span class="mf">.</span><span class="s2">" con id </span><span class="si">{</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="n">factura</span><span class="o">-&gt;</span><span class="n">factura_id</span><span class="si">}</span><span class="s2"> "</span>
+        <span class="mf">.</span><span class="s2">" Descarga el pdf desde </span><span class="si">{</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="n">factura</span><span class="o">-&gt;</span><span class="n">pdfUrl</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="nb">var_dump</span><span class="p">(</span><span class="nv">$response</span><span class="p">);</span>
-<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">\Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">();</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="err">\</span><span class="nc">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">();</span>
 <span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="highlight csharp tab-csharp"><code><span class="k">using</span> <span class="nn">Cfdis.App.Api.Client</span><span class="p">;</span>
 <span class="n">CfdiClient</span> <span class="n">cliente</span><span class="p">;</span>
